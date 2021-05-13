@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRouteMatch } from 'react-router'
+import { Link } from 'react-router-dom'
 import { getPost } from '../api/posts'
 
 export const Post = () => {
@@ -35,6 +36,10 @@ export const Post = () => {
     <div className="mt-3">
       <h3>{post.title}</h3>
       <p>{post.content}</p>
+      <div className="mt-5">
+         <Link to="/">Back to all posts</Link>
+      </div>
+     
     </div>
   )
 }

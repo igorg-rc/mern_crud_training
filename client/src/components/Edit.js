@@ -23,9 +23,5 @@ export const Edit = () => {
     }
 
   return post ? <PostForm post={post} onSubmit={onSubmit} /> : <div>No post for editing</div>
-  // return(
-  //   <div>
-  //     <PostForm post={post} />
-  //   </div>
-  // )
+
 }

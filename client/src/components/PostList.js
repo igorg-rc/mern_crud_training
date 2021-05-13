@@ -22,7 +22,7 @@ export const PostList = () => {
     const newPostsList = posts.filter(item => item.id !== id)
     history.push('/')
     setPosts(newPostsList)
-    // window.location.reload()
+    window.location.reload()
   }
 
   return (
@@ -41,9 +41,9 @@ export const PostList = () => {
             <tbody>
                 { posts.map(post => (
                   <tr key={post._id}>
-                    <td scope="row">{post._id}</td>
-                    <td><Link to={`${post._id}`}>{post.title}</Link></td>
-                    <td><Link to={`/edit/${post._id}`}>Edit</Link> | <Link to="#" onClick={(id) => deleteHandler(post._id)} >Delete</Link></td>
+                    <td scope="row">{post.id}</td>
+                    <td><Link to={`/${post.id}`}>{post.title}</Link></td>
+                    <td><Link to={`/edit/${post.id}`}>Edit</Link> | <Link to="#" onClick={(id) => deleteHandler(post.id)} >Delete</Link></td>
                   </tr>
                 )) }
             </tbody>
