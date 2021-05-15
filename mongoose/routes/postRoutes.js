@@ -82,6 +82,8 @@ const Post = require('../models/Post')
 //     })
 // })
 
+// ================== Post routes ================= //
+
 router.get('/', async(req, res) => {
   try { 
     const posts = await Post.find()
@@ -147,5 +149,65 @@ router.delete('/:id', async (req, res) => {
 })
 
 
+// =================== Post.comments routes (array approach) ======================= //
+
+router.post('/:postId/', async (req, res) => {
+  const { text } = req.body
+  const { postId } = req.params
+  
+  try {
+    const post = await Post.findById(postId)
+    post.comments.push({text})
+    post.save()
+
+    if (!post) {
+      res.status(404).json({ message: `Post with id=${postId} was not found` })
+    }
+    res.status(201).json(post)
+  } catch (error) {
+    res.status(500).json(error)
+    console.log(error)
+  }
+})
+
+router.get('/:postId/:commentId', async (req, res) => {
+  const {postId, commentId} = req.params
+
+  const post = await Post.findById(postId)
+  const commentArr = post.comments.filter(item => item._id === commentId)
+  const comment = commentArr[0]
+
+  res.status(200).json(comment)
+})
+
+router.patch('/:postId/:commentId', async (req, res) => {
+
+  const { postId, commentId } = req.params
+  const { text } = req.body
+
+  const post = await Post.findById(postId)
+  const commentArr = await post.comments.filter(item => item._id == commentId)
+  const comment = commentArr[0]
+  comment.text = text
+  await post.save()
+
+  res.status(200).json(comment)
+
+  console.log(post, comment)
+
+})
+
+router.delete('/:postId/:commentId', async (req, res) => {
+  const { postId, commentId } = req.params
+  const post = await Post.findById(postId)
+
+  const comments = post.comments.filter(i => i._id != commentId)
+  post.comments = comments
+
+  await post.save()
+
+  res.json(post)
+
+})
 
 module.exports = router
