@@ -8,8 +8,6 @@ export const Post = () => {
   
   const [post, setPost] = useState({})
 
-  
-
   useEffect(() => {
     // const fetchPost = async (id) => {
     //   try {
@@ -27,10 +25,11 @@ export const Post = () => {
 
     const fetchPost = async () => {
       const fetchedPost = await getPost(match.params.id)
+      console.log(fetchedPost)
       setPost(fetchedPost)
     }
     fetchPost()
-   }, [])
+   }, [match.params.id])
 
   return(
     <div className="mt-3">

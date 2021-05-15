@@ -15,7 +15,7 @@ export const Edit = () => {
       setPost(fetchedPost)
     }
     fetchPost()
-   }, [])
+   }, [match.params.id])
 
     const onSubmit = async data => {
       await updatePost(data, match.params.id)

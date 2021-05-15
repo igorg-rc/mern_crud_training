@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useHistory, useRouteMatch } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { deletePost, getPosts } from '../api/posts'
 
 export const PostList = () => {
-  const match = useRouteMatch()
   const history = useHistory()
 
   const [ posts, setPosts ] = useState([])
@@ -40,18 +39,16 @@ export const PostList = () => {
             </thead>
             <tbody>
                 { posts.map(post => (
-                  <tr key={post._id}>
+                  <tr key={post.id}>
                     <td scope="row">{post.id}</td>
                     <td><Link to={`/${post.id}`}>{post.title}</Link></td>
-                    <td><Link to={`/edit/${post.id}`}>Edit</Link> | <Link to="#" onClick={(id) => deleteHandler(post.id)} >Delete</Link></td>
+                    <td><Link to={`/${post.id}/edit`}>Edit</Link> | <Link to="#" onClick={(id) => deleteHandler(post.id)} >Delete</Link></td>
                   </tr>
                 )) }
             </tbody>
           </table>
         </div>
       </div>
-      
-
     </div>
   )
 }

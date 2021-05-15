@@ -25,8 +25,8 @@ function App() {
           <Switch>
             <Route path='/' exact component={PostList} />
             <Route path='/create' component={Create} />
-            <Route path='/edit/:id' component={Edit} /> 
-            <Route path='/:id' component={Post} />
+            <Route path='/:id/edit' component={Edit} /> 
+            <Route path='/:id' component={Post} /> 
           </Switch>
         </div>
       </Router>
