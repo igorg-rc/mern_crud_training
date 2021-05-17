@@ -53,11 +53,11 @@ export const PostList = () => {
           
               <tbody>
                   { posts.map(post => (
-                    <tr key={post._id}>
-                      <td>{post._id}</td>
-                      <td><Link to={`/${post._id}`}>{post.title}</Link></td>
+                    <tr key={post.id}>
+                      <td>{post.id}</td>
+                      <td><Link to={`/${post.id}`}>{post.title}</Link></td>
                       <td>{post.comments ? post.comments.length : 0}</td>
-                      <td><Link to={`/${post._id}/edit`}>Edit</Link> | <Link to="#delete" onClick={() => deletePostHandler(post._id)}>Delete</Link></td>
+                      <td><Link to={`/${post.id}/edit`}>Edit</Link> | <Link to="#delete" onClick={() => deletePostHandler(post.id)}>Delete</Link></td>
                     </tr>
                   )) }
               </tbody>

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db/mysql_db')
+const Comment = require('./Comment')
 
 const Post = db.define('post', {
   title: {
@@ -17,7 +18,20 @@ const Post = db.define('post', {
   updatedAt: {
     type: Sequelize.DATE,
     allowNull: true
-  }
+  },
+
+
 })
+
+// Post.hasMany(Comment, {
+//   foreignKey: 'postId'
+// })
+  Post.associate = (models) => {
+    Post.hasMany(models.Comment, {
+      foreignKey: 'postId'
+    })
+  }
+
+Post.sync()
 
 module.exports = Post
