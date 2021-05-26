@@ -14,18 +14,19 @@ export const PostDetail = () => {
   const history = useHistory()
 
   useEffect(() => {
-    const getPost = async (id) => {
-      const data = await fetch(`http://localhost:5000/posts/${match.params.id}`)
+    const getPost = async (id = match.params.id) => {
+      const data = await fetch(`posts/${id}`)
       const fetchedPost = await data.json()
       setPost(fetchedPost)
     }
 
     getPost()
-  }, [match.params.id])
+  }, [])
+  console.log(post)
   
   const deleteCommentHandler = async commentId => {
     try {
-      await fetch(`http://localhost:5000/posts/${match.params.id}/${commentId}`, { 
+      await fetch(`posts/${match.params.id}/${commentId}`, { 
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json'

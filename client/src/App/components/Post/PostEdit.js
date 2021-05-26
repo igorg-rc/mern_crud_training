@@ -7,6 +7,7 @@ export const PostEdit = () => {
   const match = useRouteMatch()
 
   const [post, setPost] = useState()
+  const [formdata, setFormdata] = useState({})
 
   useEffect(() => {
     const getPost = async id => {
@@ -16,22 +17,48 @@ export const PostEdit = () => {
     }
 
     getPost()
-    console.log(post)
-  }, [match.params.id, post])
+  }, [])
+  console.log(post) 
 
-  const editHandler = async (data, id) => {
+  // Handler for text fiels only
+  // const editHandler = async (data, id) => {
 
+  //   try {
+  //     await fetch(`http://localhost:5000/posts/${match.params.id}`, {
+  //       method: 'PATCH',
+  //       body: JSON.stringify(data),
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json'
+  //       }
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   history.push('/')
+  // }
+
+  const editHandler = async (id, data) => {
+    
     try {
+      const formData = new FormData()
+      formData.append('title', data.title)
+      formData.append('content', data.content)
+      formData.append('image', data.image[0])
+      setFormdata(formData)
+      console.log(formdata)
       await fetch(`http://localhost:5000/posts/${match.params.id}`, {
         method: 'PATCH',
-        body: JSON.stringify(data),
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
+        body: JSON.stringify(formdata),
+        // headers: {
+        //   'Content-Type': 'multipart/form-data'
+        // }
       })
+      .then(res => res.json())
+      .catch(error => console.log(error))
+      console.log(data)
     } catch (error) {
-      console.log(error)
+      console.log(error)      
     }
     history.push('/')
   }

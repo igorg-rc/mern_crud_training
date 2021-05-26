@@ -6,7 +6,7 @@ export const PostList = () => {
 
   useEffect(() => {
     const getPosts = async () => {
-      const data = await fetch('http://localhost:5000/posts')
+      const data = await fetch('posts')
       const fetchedPosts = await data.json()
       setPosts(fetchedPosts)
     }
@@ -17,7 +17,7 @@ export const PostList = () => {
   
   const deletePostHandler = async id => {
     try {
-      await fetch(`http://localhost:5000/posts/${id}`, {
+      await fetch(`posts/${id}`, {
       method: 'DELETE'
     })
     console.log(`Post was successfuly deleted`)

@@ -148,19 +148,34 @@ router.post('/', upload.single('image'), async (req, res) => {
   }
 })
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', upload.single('image'), async (req, res) => {
   const id = req.params.id
-  const { title, content } = req.body
-  try {
-    const post = await Post.findByIdAndUpdate(id, {title, content})
-    if (!post) {
-      res.status(404).json({ message: `Post with id=${id} was not found` })
-    }
-    res.status(204).json(post)
-  } catch (error) { 
-    res.status(500).json(error)
-    console.log(error)
+
+  
+  if (!id) {
+    res.status(404).json({ message: `Post with id=${id} was not found` })
   }
+
+  Post
+    .findById(id)
+    .then(post => {
+      deleteFile(post.imgUrl)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+
+    try {
+      const imgUrl = req.file.path
+      const { title, content } = req.body
+      // const updatedPost = { _id: id, title, content, imgUrl }
+      const post = await Post.findByIdAndUpdate(id, { title, content, imgUrl })
+      res.status(204).json(post)
+    } 
+    catch (error) { 
+      res.status(500).json(error)
+      console.log(error)
+    }
 })
 
 router.delete('/:id', async (req, res) => {
