@@ -18,7 +18,7 @@ export const PostList = () => {
   const deleteHandler = async (id) => {
     console.log(id)
     await deletePost(id)
-    const newPostsList = posts.filter(item => item.id !== id)
+    const newPostsList = posts.filter(item => item._id !== id)
     history.push('/')
     setPosts(newPostsList)
     window.location.reload()
@@ -39,10 +39,10 @@ export const PostList = () => {
             </thead>
             <tbody>
                 { posts.map(post => (
-                  <tr key={post.id}>
-                    <td scope="row">{post.id}</td>
-                    <td><Link to={`/${post.id}`}>{post.title}</Link></td>
-                    <td><Link to={`/${post.id}/edit`}>Edit</Link> | <Link to="#" onClick={(id) => deleteHandler(post.id)} >Delete</Link></td>
+                  <tr key={post.title}>
+                    <td scope="row">{post._id}</td>
+                    <td><Link to={`/${post._id}`}>{post._id}</Link></td>
+                    <td><Link to={`/${post._id}/edit`}>Edit</Link> | <Link to="#" onClick={(id) => deleteHandler(post._id)} >Delete</Link></td>
                   </tr>
                 )) }
             </tbody>

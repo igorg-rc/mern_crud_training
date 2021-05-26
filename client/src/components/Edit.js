@@ -11,14 +11,14 @@ export const Edit = () => {
   
   useEffect(() => {
     const fetchPost = async () => {
-      const fetchedPost = await getPost(match.params.id)
+      const fetchedPost = await getPost(match.params._id)
       setPost(fetchedPost)
     }
     fetchPost()
-   }, [match.params.id])
+   }, [match.params._id])
 
     const onSubmit = async data => {
-      await updatePost(data, match.params.id)
+      await updatePost(data, match.params._id)
       history.push('/')
     }
 

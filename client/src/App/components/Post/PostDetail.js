@@ -53,8 +53,9 @@ export const PostDetail = () => {
   return (
     <div className="container">
       <div className="mt-3 mb-3">
-        <div className="mb-3">
+        <div className="mb-3 text-center">
           <h1>{post.title}</h1>
+          <img src={`http://localhost:5000/${post.imgUrl}`} style={{height: '100%' }} alt={post.imgUrl} />
         </div>
 
         <div className="row">

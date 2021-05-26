@@ -1,5 +1,28 @@
 const router = require('express').Router()
 const Post = require('../models/Post')
+// multer settings
+const path = require('path')
+const multer = require('multer')
+const crypto = require('crypto')
+const deleteFile = require('../helpers/deleteFile')
+
+const myStorage = multer.diskStorage({
+  destination:(req, res, cb) => {
+    cb(null, path.join("downloads/images/posts"));
+  },
+  filename:(req, file, cb) => {
+    crypto.pseudoRandomBytes(16, (err, raw) => {
+      if (err) return cb(err)
+
+      cb(null, "img_" + Date.now() + '_' + file.originalname);
+    })
+  }
+});
+
+const upload = multer({
+  storage: myStorage,
+  limits: { fileSize: 10000000 }
+})
 
 // router.get('/', (req, res) => {
 //   Post
@@ -107,11 +130,16 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.post('/', async(req, res) => {
+router.post('/', upload.single('image'), async (req, res) => {
+  
   const { title, content } = req.body
+  const imgUrl = req.file.path
 
+  console.log(req.file);
+  console.log(req.body);
+  const post = new Post({ title, content, imgUrl })
+  
   try {
-    const post = new Post({title, content})
     await post.save()
     res.status(201).json(post)
   } catch (error) {
@@ -137,6 +165,19 @@ router.patch('/:id', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const id = req.params.id
+
+  if (!id) return res.status(404).json({ message: `No post with id ${id}`})
+
+  Post
+    .findById(id)
+    .then(post => {
+      deleteFile(post.imgUrl)
+    })
+    .catch(error => {
+      res.status(500).json(error)
+      console.log(error)
+    }) 
+
   try {
     const post = await Post.findByIdAndRemove(id).exec()
     if (!post) {

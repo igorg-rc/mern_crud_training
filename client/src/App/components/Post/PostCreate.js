@@ -4,23 +4,48 @@ import {PostForm} from './PostForm'
 export const PostCreate = () => {
   const history = useHistory()
 
-  const createHandler = async (data) => {
-    try {
-      await fetch(`http://localhost:5000/posts`, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data)
+  // const createHandler = async (data) => {
+  //   try {
+  //     await fetch(`http://localhost:5000/posts`, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data)
         
-      })
-    } catch (error) {
-      console.log(error)
-    }
-    console.log(data)
-    history.push('/')
+  //     })
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   console.log(data)
+  //   history.push('/')
+  // }
 
+
+
+  // try out with express.fileupload
+  const createHandler = async data => {
+    const formData = new FormData()
+    formData.append('title', data.title)
+    formData.append('content', data.content)
+    formData.append('image', data.image[0])
+
+    console.log(data)
+    
+    const res = await fetch(`http://localhost:5000/posts`, {
+      method: 'POST',
+      body: formData,
+      // headers: {
+      //   'Accept': 'application/json',
+      //   'Content-Type': 'multipart/form-data',
+      //   'Access-Control-Allow-Origin': '*'
+      // }
+    })
+    .then(res => res.json())
+    .catch(err => console.log(err))
+    console.log(res)
+    history.push('/')
   }
 
   return (
