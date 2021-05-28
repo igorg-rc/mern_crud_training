@@ -21,7 +21,7 @@ export const PostForm = ({ post, submit }) => {
           <input type="text" name="title" id="title" className="form-control" placeholder="Post title" {...register('title')} />
           <label>Content</label>
           <textarea id="content" name="content" rows="7" className="form-control" placeholder="Post content" {...register('content')}></textarea>
-          <input type="file" name="image" {...register('image')} className="mt-3" />
+          <input type="file" id="image" name="image" {...register('image')} className="mt-3" />
         </div>
         <button type="submit" className="btn btn-primary">Submit</button>
       </form>

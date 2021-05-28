@@ -14,8 +14,8 @@ export const PostDetail = () => {
   const history = useHistory()
 
   useEffect(() => {
-    const getPost = async (id = match.params.id) => {
-      const data = await fetch(`posts/${id}`)
+    const getPost = async (id) => {
+      const data = await fetch(`/posts/${match.params.id}`)
       const fetchedPost = await data.json()
       setPost(fetchedPost)
     }

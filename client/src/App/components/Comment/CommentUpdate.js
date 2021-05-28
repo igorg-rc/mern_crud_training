@@ -5,13 +5,13 @@ import {CommentForm} from'./CommentForm'
 export const CommentUpdate = () => {
   const match = useRouteMatch()
 
-  const [comment, setComment] = useState()
+  const [comment, setComment] = useState({})
 
   useEffect(() => {
-    const getComment = async id => {
+    const getComment = async () => {
+      const data = await fetch(`/posts/${match.params.id}/${match.params.ID}`)
+      const fetchedComment = await data.json()
       try {
-        const data = await fetch(`http://localhost:5000/posts/${match.params.id}/${id}`)
-        const fetchedComment = await data.json()
         setComment(fetchedComment)
         console.log(comment)
       } catch (error) {
@@ -20,11 +20,11 @@ export const CommentUpdate = () => {
       
     }
     getComment()
-  }, [])
+  }, [match.params.id, match.params.ID])
 
   const onSubmit = async (id, data) => {
     try {
-      await fetch(`http://localhost:5000/posts/${match.params.id}/${id}`, {
+      await fetch(`/posts/${match.params.id}/${id}`, {
         method: 'PATCH',  
         headers: {
             'Accept': 'application/json',

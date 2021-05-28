@@ -26,11 +26,11 @@ export const App = () => {
 
         <Switch>
           <Route exact path="/" component={PostList} />
-          <Route path="/create" component={PostCreate} />
+          <Route path="/:id/create-comment" component={CommentCreate} />
+          <Route path="/:id/:ID/update-comment" component={CommentUpdate} />
           <Route path="/:id/edit" component={PostEdit} />
           <Route path="/:id" component={PostDetail} />
-          <Route path="/:id/:ID/update-comment" component={CommentUpdate} />
-          <Route path="/:id/create-comment" component={CommentCreate} />
+          <Route path="/create" component={PostCreate} />
         </Switch>
 
 

@@ -3,17 +3,26 @@ import { Link } from "react-router-dom"
 
 export const PostList = () => {
   const [posts, setPosts] = useState([])
+  const [page, setPage] = useState(1)
+  const [numberOfPages, setNumberOfPages] = useState(0)
+
+  const pages = new Array(numberOfPages).fill(null).map((v, i) => i)
 
   useEffect(() => {
     const getPosts = async () => {
-      const data = await fetch('posts')
-      const fetchedPosts = await data.json()
+      const data = await fetch(`posts?page=${page}`).then(res => res.json())
+        
+
+      console.log(data)
+      const fetchedPosts = data.posts
+      const fetchedTotalPages = data.totalPages
       setPosts(fetchedPosts)
+      setNumberOfPages(fetchedTotalPages)
     }
 
     getPosts()
 
-  }, [])
+  }, [page])
   
   const deletePostHandler = async id => {
     try {
@@ -38,6 +47,15 @@ export const PostList = () => {
       <div className="mt-3">
         <div className="mb-3">
           <h1>PostList</h1>
+        </div>
+        <div className="">
+          <ul className="pagination justify-content-center">
+            {pages.map((pageIndex) => (
+              <li className="page-item" key={pageIndex}>
+                <a className="page-link" href="#!" onClick={() => setPage(pageIndex)}>{pageIndex + 1}</a>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="row">
           <div className="col">

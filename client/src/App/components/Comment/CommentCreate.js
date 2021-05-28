@@ -8,7 +8,7 @@ export const CommentCreate = () => {
 
   const onSubmit = async (data) => {
     try {
-      await fetch(`http://localhost:5000/posts/${match.params.id}`, {
+      await fetch(`/posts/${match.params.id}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

@@ -4,6 +4,7 @@ import {PostForm} from './PostForm'
 export const PostCreate = () => {
   const history = useHistory()
 
+  // Handler for text fields only
   // const createHandler = async (data) => {
   //   try {
   //     await fetch(`http://localhost:5000/posts`, {
@@ -31,9 +32,9 @@ export const PostCreate = () => {
     formData.append('content', data.content)
     formData.append('image', data.image[0])
 
-    console.log(data)
+    console.log(formData)
     
-    const res = await fetch(`http://localhost:5000/posts`, {
+    const res = await fetch(`/posts`, {
       method: 'POST',
       body: formData,
       // headers: {

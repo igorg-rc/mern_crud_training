@@ -11,14 +11,14 @@ export const PostEdit = () => {
 
   useEffect(() => {
     const getPost = async id => {
-      const data = await fetch(`http://localhost:5000/posts/${match.params.id}`)
+      const data = await fetch(`/posts/${match.params.id}`)
       const fetchedPost = await data.json()
       setPost(fetchedPost)
     }
 
     getPost()
   }, [])
-  console.log(post) 
+  console.log(post)  
 
   // Handler for text fiels only
   // const editHandler = async (data, id) => {
@@ -38,25 +38,25 @@ export const PostEdit = () => {
   //   history.push('/')
   // }
 
-  const editHandler = async (id, data) => {
+  const editHandler = async (id = match.params.id, data) => {
     
     try {
       const formData = new FormData()
       formData.append('title', data.title)
       formData.append('content', data.content)
       formData.append('image', data.image[0])
-      setFormdata(formData)
-      console.log(formdata)
-      await fetch(`http://localhost:5000/posts/${match.params.id}`, {
+      setPost(formData)
+      console.log(post)
+      await fetch(`/posts/${id}`, {
         method: 'PATCH',
-        body: JSON.stringify(formdata),
+        body: formdata,
         // headers: {
         //   'Content-Type': 'multipart/form-data'
         // }
       })
       .then(res => res.json())
       .catch(error => console.log(error))
-      console.log(data)
+      // console.log(data)
     } catch (error) {
       console.log(error)      
     }
